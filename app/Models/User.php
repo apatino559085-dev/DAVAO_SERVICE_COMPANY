@@ -33,7 +33,7 @@ public function applications()
 }
 
 public function isAdmin()    { return $this->role === 'admin'; }
-public function isStaff() { return $this->role === 'staff'; }
+public function isHR() { return $this->role === 'hr' || $this->role === 'staff' || $this->role === 'employer'; }
 public function isApplicant(){ return $this->role === 'applicant'; }
 
     /**

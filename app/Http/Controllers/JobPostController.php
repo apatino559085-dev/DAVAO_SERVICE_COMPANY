@@ -18,6 +18,10 @@ class JobPostController extends Controller
             $query->where('location', 'like', '%' . $request->location . '%');
         }
 
+        if ($request->has('industry') && $request->industry) {
+            $query->where('industry', $request->industry);
+        }
+
         if ($request->has('salary') && $request->salary) {
             if ($request->salary == '10k') {
                 $query->whereRaw('CAST(salary AS UNSIGNED) BETWEEN 10000 AND 20000');
@@ -47,7 +51,13 @@ class JobPostController extends Controller
             'description' => 'required|string',
             'salary'      => 'nullable|string|max:100',
             'type'        => 'required|in:full-time,part-time,remote,contract',
+            'industry'    => 'required|string|max:100',
+            'logo'        => 'nullable|image|max:2048',
         ]);
+
+        if ($request->hasFile('logo')) {
+            $data['logo_path'] = $request->file('logo')->store('company_logos', 'public');
+        }
 
         auth()->user()->jobPosts()->create($data);
 
@@ -77,7 +87,13 @@ class JobPostController extends Controller
             'description' => 'required|string',
             'salary'      => 'nullable|string|max:100',
             'type'        => 'required|in:full-time,part-time,remote,contract',
+            'industry'    => 'required|string|max:100',
+            'logo'        => 'nullable|image|max:2048',
         ]);
+
+        if ($request->hasFile('logo')) {
+            $data['logo_path'] = $request->file('logo')->store('company_logos', 'public');
+        }
 
         $job->update($data);
 

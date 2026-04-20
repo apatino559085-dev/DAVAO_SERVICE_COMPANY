@@ -16,7 +16,7 @@ class HomeController extends Controller
             return redirect()->route('admin.dashboard');
         }
 
-        if (auth()->user()->isStaff()) {
+        if (auth()->user()->isHR()) {
             $myJobs = JobPost::where('user_id', auth()->id())->latest()->get();
             $recentApplications = Application::whereIn('job_post_id', $myJobs->pluck('id'))
                 ->with('applicant', 'jobPost')

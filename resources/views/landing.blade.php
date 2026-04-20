@@ -3,352 +3,303 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JobBoard — Find Your Dream Career</title>
+    <title>Davao Job Portal — Empowering Davao's Digital Future</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        /* ===== RESET & BASE ===== */
-        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #ffffff;
-            color: #1a1a2e;
-            line-height: 1.6;
-            overflow-x: hidden;
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #a855f7;
+            --bg: #f1f4f9;        /* Matches dashboard */
+            --text-main: #0f172a; /* Dark text for light mode */
+            --text-muted: #64748b;
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.5);
+            --glass-shadow: 0 10px 40px 0 rgba(31, 38, 135, 0.05);
         }
 
-        /* ===== NAVBAR ===== */
-        .navbar {
-            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-            background: rgba(255,255,255,0.92);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(0,0,0,0.06);
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow: hidden;
+            position: relative;
+            height: 100vh;
         }
-        .navbar-inner {
-            max-width: 1200px; margin: 0 auto;
-            padding: 0 32px; height: 72px;
+
+        /* Background Effects */
+        .ambient-blob {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            filter: blur(120px);
+            z-index: -1;
+            opacity: 0.4;
+            pointer-events: none;
+            animation: float-blob 20s infinite ease-in-out alternate;
+        }
+        .blob-1 { top: -10%; left: -10%; background: rgba(99, 102, 241, 0.3); }
+        .blob-2 { bottom: -10%; right: -10%; background: rgba(168, 85, 247, 0.3); animation-delay: -5s; }
+        
+        @keyframes float-blob {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(50px, 50px) rotate(180deg); }
+        }
+
+        /* Navbar */
+        .nav {
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            padding: 24px 0; transition: all 0.3s ease;
+        }
+        .nav.scrolled {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+        }
+        .nav.scrolled .logo-box {
+            width: 50px; height: 50px;
+            border-radius: 50%;
+        }
+        .nav-content {
+            max-width: 1200px; margin: 0 auto; padding: 0 40px;
             display: flex; align-items: center; justify-content: space-between;
         }
         .logo {
-            font-size: 24px; font-weight: 900;
-            color: #1a1a2e; text-decoration: none;
-            letter-spacing: -0.5px;
+            text-decoration: none; display: flex; align-items: center; gap: 12px;
         }
-        .logo-dot { color: #6366f1; }
+        .logo-box {
+            width: 64px; height: 64px; background: white;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            overflow: hidden; padding: 4px; border: 1px solid var(--glass-border);
+            transition: all 0.3s;
+        }
+        .logo-box img { width: 100%; height: 100%; object-fit: contain; }
         .nav-links { display: flex; align-items: center; gap: 32px; }
         .nav-link {
-            font-size: 14px; font-weight: 600;
-            color: #64748b; text-decoration: none;
+            color: var(--text-muted); text-decoration: none; font-weight: 700; font-size: 14px;
             transition: color 0.2s;
         }
-        .nav-link:hover { color: #1a1a2e; }
+        .nav-link:hover { color: var(--primary); }
         .btn {
-            display: inline-flex; align-items: center; justify-content: center;
-            font-weight: 700; text-decoration: none;
-            border-radius: 12px; transition: all 0.25s ease;
-            cursor: pointer; border: none;
+            padding: 12px 28px; border-radius: 12px; font-weight: 700; font-size: 14px;
+            text-decoration: none; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-flex; align-items: center; gap: 8px; cursor: pointer;
         }
-        .btn-sm { font-size: 14px; padding: 10px 24px; }
-        .btn-lg { font-size: 16px; padding: 16px 40px; }
         .btn-primary {
-            background: #6366f1; color: #fff;
-            box-shadow: 0 4px 14px rgba(99,102,241,0.35);
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white; box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.4);
         }
-        .btn-primary:hover {
-            background: #4f46e5;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(99,102,241,0.4);
-        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 15px 30px -5px rgba(99, 102, 241, 0.5); }
         .btn-outline {
-            background: #fff; color: #1a1a2e;
-            border: 2px solid #e2e8f0;
+            background: var(--glass-bg); backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border); color: var(--text-main);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
         }
-        .btn-outline:hover {
-            border-color: #6366f1; color: #6366f1;
-            transform: translateY(-2px);
-        }
+        .btn-outline:hover { background: white; transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
 
-        /* ===== HERO ===== */
+        /* Hero */
         .hero {
-            min-height: 100vh;
-            display: flex; align-items: center; justify-content: center;
-            text-align: center;
-            padding: 120px 32px 80px;
-            position: relative;
-            overflow: hidden;
-            background: linear-gradient(180deg, #f8faff 0%, #ffffff 100%);
+            position: relative; height: calc(100vh - 50px); display: flex; align-items: center;
+            padding: 100px 40px 40px;
         }
-        .hero::before {
-            content: '';
-            position: absolute; top: -50%; left: -50%;
-            width: 200%; height: 200%;
-            background:
-                radial-gradient(circle at 30% 40%, rgba(99,102,241,0.06) 0%, transparent 50%),
-                radial-gradient(circle at 70% 60%, rgba(168,85,247,0.05) 0%, transparent 50%),
-                radial-gradient(circle at 50% 20%, rgba(236,72,153,0.03) 0%, transparent 50%);
-            animation: slowdrift 30s ease-in-out infinite alternate;
+        .hero-container {
+            max-width: 1200px; margin: 0 auto; display: grid;
+            grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
         }
-        @keyframes slowdrift {
-            0% { transform: translate(0, 0) rotate(0deg); }
-            100% { transform: translate(-2%, 2%) rotate(3deg); }
-        }
-        .hero-inner { position: relative; z-index: 2; max-width: 820px; }
         .hero-badge {
             display: inline-flex; align-items: center; gap: 8px;
-            background: #eef2ff; color: #6366f1;
-            font-size: 12px; font-weight: 800;
-            padding: 8px 20px; border-radius: 100px;
-            letter-spacing: 0.5px; margin-bottom: 32px;
-            border: 1px solid rgba(99,102,241,0.15);
-        }
-        .hero-badge-dot {
-            width: 6px; height: 6px;
-            background: #6366f1; border-radius: 50%;
-            animation: pulse-dot 2s ease-in-out infinite;
-        }
-        @keyframes pulse-dot {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(1.5); }
+            background: white; border: 1px solid rgba(99, 102, 241, 0.2);
+            color: var(--primary); padding: 8px 16px; border-radius: 100px;
+            font-size: 12px; font-weight: 800; margin-bottom: 24px;
+            text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 4px 10px rgba(0,0,0,0.03);
         }
         .hero-title {
-            font-size: clamp(40px, 7vw, 72px);
-            font-weight: 900; line-height: 1.05;
-            letter-spacing: -2px; margin-bottom: 28px;
-            color: #0f172a;
+            font-size: clamp(40px, 5.5vw, 64px); color: var(--text-main); font-weight: 900;
+            line-height: 1.1; margin-bottom: 24px; letter-spacing: -2px;
         }
-        .hero-title-accent {
-            background: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        .text-gradient {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
         .hero-desc {
-            font-size: 18px; color: #64748b;
-            max-width: 560px; margin: 0 auto 48px;
-            line-height: 1.7; font-weight: 500;
+            font-size: 18px; color: var(--text-muted); margin-bottom: 40px;
+            max-width: 500px; font-weight: 500; line-height: 1.6;
         }
-        .hero-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+        .hero-visual { position: relative; }
+        .hero-image-card {
+            background: white; border: 1px solid rgba(0,0,0,0.05);
+            padding: 12px; border-radius: 32px; box-shadow: 0 30px 60px rgba(0,0,0,0.08);
+            transform: rotate(2deg); transition: transform 0.5s;
+        }
+        .hero-image-card:hover { transform: rotate(0deg); }
+        .hero-image-card img { width: 100%; border-radius: 20px; display: block; }
 
-        /* ===== STATS BAR ===== */
-        .stats-bar {
-            margin-top: 72px;
-            display: flex; justify-content: center; gap: 48px;
-            flex-wrap: wrap;
+        /* Sections */
+        .section { padding: 100px 40px; }
+        .section-container { max-width: 1200px; margin: 0 auto; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        
+        .card {
+            background: var(--glass-bg); backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border); box-shadow: var(--glass-shadow);
+            padding: 48px; border-radius: 32px; height: 100%; transition: all 0.3s ease;
         }
-        .stat { text-align: center; }
-        .stat-number {
-            font-size: 32px; font-weight: 900;
-            color: #0f172a; letter-spacing: -1px;
+        .card:hover { transform: translateY(-5px); box-shadow: 0 20px 50px rgba(0,0,0,0.08); background: white; }
+        
+        .tag {
+            font-size: 12px; font-weight: 800; color: var(--primary);
+            text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; display: inline-block;
+            background: rgba(99,102,241,0.1); padding: 6px 14px; border-radius: 100px;
         }
-        .stat-label {
-            font-size: 13px; font-weight: 600;
-            color: #94a3b8; margin-top: 4px;
-        }
+        .h2 { font-size: 32px; font-weight: 900; color: var(--text-main); margin-bottom: 24px; letter-spacing: -1px; }
+        .p { font-size: 16px; color: var(--text-muted); font-weight: 500; margin-bottom: 24px; line-height: 1.6;}
 
-        /* ===== LOGOS ===== */
-        .logos-section {
-            padding: 64px 32px;
-            border-top: 1px solid #f1f5f9;
-            border-bottom: 1px solid #f1f5f9;
-            background: #fafbfc;
+        /* Vision/Mission List */
+        .list { list-style: none; margin-top: 24px; }
+        .list-item { display: flex; gap: 16px; margin-bottom: 16px; align-items: center; }
+        .list-icon {
+            width: 32px; height: 32px; background: linear-gradient(135deg, #e0e7ff, #c7d2fe);
+            border-radius: 10px; color: var(--primary); display: flex;
+            align-items: center; justify-content: center; font-size: 14px; font-weight: 900; flex-shrink: 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
-        .logos-label {
-            text-align: center; font-size: 11px; font-weight: 800;
-            color: #94a3b8; letter-spacing: 3px;
-            text-transform: uppercase; margin-bottom: 36px;
-        }
-        .logos-grid {
-            display: flex; flex-wrap: wrap;
-            justify-content: center; align-items: center;
-            gap: 48px; opacity: 0.35;
-        }
-        .logos-grid span {
-            font-size: 18px; font-weight: 900;
-            letter-spacing: 3px; text-transform: uppercase;
-        }
+        .list-text { font-weight: 700; color: var(--text-main); font-size: 15px; }
 
-        /* ===== FEATURES ===== */
-        .features {
-            max-width: 1200px; margin: 0 auto;
-            padding: 120px 32px;
+        /* Footer */
+        .footer { padding: 16px 40px; text-align: center; border-top: 1px solid rgba(0,0,0,0.05); position: fixed; bottom: 0; left: 0; right: 0; z-index: 10; }
+        .copy { color: var(--text-muted); font-size: 14px; font-weight: 600; }
+
+        /* Landing Modals */
+        .landing-modal-overlay {
+            display: none; position: fixed; inset: 0;
+            background: rgba(15, 23, 42, 0.55); backdrop-filter: blur(10px);
+            z-index: 9999; align-items: center; justify-content: center; padding: 24px;
         }
-        .features-header {
-            text-align: center; margin-bottom: 72px;
+        .landing-modal-overlay.active { display: flex; }
+        .landing-modal {
+            background: white; width: 100%; max-width: 520px;
+            border-radius: 28px; overflow: hidden;
+            box-shadow: 0 25px 60px -12px rgba(0,0,0,0.25);
+            transform: scale(0.95); opacity: 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .features-title {
-            font-size: 40px; font-weight: 900;
-            letter-spacing: -1px; margin-bottom: 16px;
-            color: #0f172a;
+        .landing-modal-overlay.active .landing-modal {
+            transform: scale(1); opacity: 1;
         }
-        .features-desc {
-            font-size: 18px; color: #64748b;
-            max-width: 500px; margin: 0 auto;
-            font-weight: 500;
+        .landing-modal-header {
+            padding: 32px 32px 0; display: flex; align-items: flex-start;
+            justify-content: space-between;
         }
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 32px;
-        }
-        .feature-card {
-            background: #fff;
-            border: 1px solid #f1f5f9;
-            border-radius: 28px;
-            padding: 44px 36px;
-            transition: all 0.35s ease;
-        }
-        .feature-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 60px -15px rgba(99,102,241,0.12);
-            border-color: #e0e7ff;
-        }
-        .feature-icon {
-            width: 56px; height: 56px;
-            border-radius: 16px;
+        .landing-modal-icon {
+            width: 56px; height: 56px; border-radius: 16px;
             display: flex; align-items: center; justify-content: center;
-            font-size: 26px; margin-bottom: 28px;
         }
-        .feature-icon-blue { background: #eef2ff; }
-        .feature-icon-purple { background: #faf5ff; }
-        .feature-icon-pink { background: #fdf2f8; }
-        .feature-name {
-            font-size: 20px; font-weight: 800;
-            margin-bottom: 12px; color: #0f172a;
+        .landing-modal-close {
+            width: 36px; height: 36px; border-radius: 50%; background: #f8fafc;
+            border: none; color: #94a3b8; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s; flex-shrink: 0;
         }
-        .feature-text {
-            font-size: 15px; color: #64748b;
-            line-height: 1.7; font-weight: 500;
+        .landing-modal-close:hover { background: #f1f5f9; color: #0f172a; }
+        .landing-modal-body { padding: 24px 32px 32px; }
+        .landing-modal-body h2 {
+            font-size: 24px; font-weight: 900; color: #0f172a;
+            margin-bottom: 16px; letter-spacing: -0.5px;
         }
+        .landing-modal-body p {
+            font-size: 15px; color: #64748b; line-height: 1.7;
+            font-weight: 500; margin-bottom: 12px;
+        }
+        .landing-modal-body ul {
+            list-style: none; margin-top: 16px;
+        }
+        .landing-modal-body ul li {
+            display: flex; align-items: center; gap: 12px;
+            padding: 10px 0; font-size: 14px; font-weight: 700;
+            color: #334155;
+        }
+        .landing-modal-body ul li .li-icon {
+            width: 28px; height: 28px; border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 12px; font-weight: 900; flex-shrink: 0;
+        }
+        .landing-modal-footer {
+            padding: 0 32px 32px;
+        }
+        .landing-modal-footer button {
+            width: 100%; padding: 14px; border-radius: 14px;
+            background: #0f172a; color: white; border: none;
+            font-size: 14px; font-weight: 800; cursor: pointer;
+            transition: background 0.2s; font-family: inherit;
+        }
+        .landing-modal-footer button:hover { background: #1e293b; }
 
-        /* ===== CTA ===== */
-        .cta-section { padding: 40px 32px 120px; }
-        .cta-box {
-            max-width: 1000px; margin: 0 auto;
-            background: linear-gradient(135deg, #4f46e5, #7c3aed);
-            border-radius: 40px;
-            padding: 80px 48px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-        .cta-box::before {
-            content: '';
-            position: absolute; top: -100px; right: -100px;
-            width: 400px; height: 400px;
-            background: rgba(255,255,255,0.08);
-            border-radius: 50%;
-        }
-        .cta-box::after {
-            content: '';
-            position: absolute; bottom: -80px; left: -80px;
-            width: 300px; height: 300px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 50%;
-        }
-        .cta-title {
-            font-size: 42px; font-weight: 900;
-            color: #fff; margin-bottom: 20px;
-            letter-spacing: -1px;
-            position: relative; z-index: 2;
-        }
-        .cta-desc {
-            font-size: 18px; color: rgba(255,255,255,0.7);
-            max-width: 460px; margin: 0 auto 40px;
-            font-weight: 500;
-            position: relative; z-index: 2;
-        }
-        .btn-white {
-            display: inline-flex; align-items: center; justify-content: center;
-            background: #fff; color: #4f46e5;
-            font-size: 16px; font-weight: 800;
-            padding: 18px 44px; border-radius: 16px;
-            text-decoration: none;
-            transition: all 0.25s ease;
-            position: relative; z-index: 2;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-        }
-        .btn-white:hover {
-            transform: translateY(-3px) scale(1.03);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
-        }
-
-        /* ===== FOOTER ===== */
-        .footer {
-            padding: 48px 32px;
-            border-top: 1px solid #f1f5f9;
-            text-align: center;
-            color: #94a3b8;
-            font-size: 14px; font-weight: 600;
-        }
-
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 768px) {
-            .nav-links a:not(.btn) { display: none; }
-            .hero { padding: 100px 20px 60px; }
-            .hero-title { letter-spacing: -1px; }
-            .stats-bar { gap: 32px; }
-            .features { padding: 80px 20px; }
-            .cta-box { padding: 60px 28px; border-radius: 28px; }
-            .cta-title { font-size: 32px; }
+        @media (max-width: 968px) {
+            .hero-container, .grid-2 { grid-template-columns: 1fr; }
+            .hero-visual { order: -1; }
+            .hero { padding-top: 140px; text-align: center; }
+            .hero-desc { margin-left: auto; margin-right: auto; }
+            .nav-links { display: none; }
         }
     </style>
 </head>
 <body>
 
-    <!-- ===== NAVBAR ===== -->
-    <nav class="navbar">
-        <div class="navbar-inner">
-            <a href="/" class="logo">JobBoard<span class="logo-dot">.</span></a>
+    <div class="ambient-blob blob-1"></div>
+    <div class="ambient-blob blob-2"></div>
+
+    <!-- Navigation -->
+    <nav class="nav" id="navbar">
+        <div class="nav-content">
+            <a href="/" class="logo">
+                <div class="logo-box">
+                    <img src="{{ asset('images/logo.png') }}" alt="Davao Job Portal Logo">
+                </div>
+                <div style="font-weight: 900; font-size: 20px; color: var(--text-main); letter-spacing: -0.5px;">Davao Job Portal</div>
+            </a>
             <div class="nav-links">
-                <a href="{{ route('jobs.index') }}" class="nav-link">Browse Jobs</a>
+                <a href="javascript:void(0)" onclick="openLandingModal('opportunities')" class="nav-link">Opportunities</a>
+                <a href="javascript:void(0)" onclick="openLandingModal('company')" class="nav-link">The Company</a>
+                <a href="javascript:void(0)" onclick="openLandingModal('vision')" class="nav-link">Our Vision</a>
                 @auth
-                    <a href="{{ route('home') }}" class="btn btn-sm btn-primary">Dashboard</a>
+                    <a href="{{ route('home') }}" class="btn btn-primary">Go to Dashboard</a>
                 @else
-                    <a href="{{ route('login') }}" class="nav-link">Log in</a>
-                    <a href="{{ route('register') }}" class="btn btn-sm btn-primary">Get Started Free</a>
+                    <a href="{{ route('login') }}" class="btn btn-outline">Sign In</a>
+                    <a href="{{ route('register') }}" class="btn btn-primary">Start Your Journey</a>
                 @endauth
             </div>
         </div>
     </nav>
 
-    <!-- ===== HERO ===== -->
+    <!-- Hero Section -->
     <section class="hero">
-        <div class="hero-inner">
-            <div class="hero-badge">
-                <span class="hero-badge-dot"></span>
-                TRUSTED BY 10,000+ PROFESSIONALS
-            </div>
-
-            <h1 class="hero-title">
-                Find Your Next<br>
-                <span class="hero-title-accent">Dream Career.</span>
-            </h1>
-
-            <p class="hero-desc">
-                We connect world-class talent with the most innovative companies.
-                Your next opportunity is one click away.
-            </p>
-
-            <div class="hero-buttons">
-                <a href="{{ route('jobs.index') }}" class="btn btn-lg btn-primary">Explore Vacancies</a>
-                <a href="{{ route('register') }}" class="btn btn-lg btn-outline">Post a Job</a>
-            </div>
-
-            <div class="stats-bar">
-                <div class="stat">
-                    <div class="stat-number">{{ \App\Models\JobPost::count() }}+</div>
-                    <div class="stat-label">Active Jobs</div>
+        <div class="hero-container">
+            <div class="hero-text">
+                <div class="hero-badge">⚡ Join Davao's Tech Revolution</div>
+                <h1 class="hero-title">
+                    Empowering Davao's <br>
+                    <span class="text-gradient">Digital Dreams.</span>
+                </h1>
+                <p class="hero-desc">
+                    We connect Mindanao's most talented professionals with innovative digital solutions. Start building the future of Davao City with us.
+                </p>
+                <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+                    <a href="{{ route('jobs.index') }}" class="btn btn-primary">Browse Vacancies</a>
+                    <a href="{{ route('register') }}" class="btn btn-outline">Become a Partner</a>
                 </div>
-                <div class="stat">
-                    <div class="stat-number">{{ \App\Models\User::count() }}+</div>
-                    <div class="stat-label">Registered Users</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-number">98%</div>
-                    <div class="stat-label">Satisfaction Rate</div>
+            </div>
+            <div class="hero-visual">
+                <div class="hero-image-card">
+                    <img src="{{ asset('images/hero_pro.png') }}" alt="Davao Tech Office">
                 </div>
             </div>
         </div>
@@ -356,45 +307,97 @@
 
 
 
-    <!-- ===== FEATURES ===== -->
-    <section class="features">
-        <div class="features-header">
-            <h2 class="features-title">Everything you need.</h2>
-            <p class="features-desc">Built for speed, simplicity, and results. Here is why seekers and staff love us.</p>
-        </div>
-
-        <div class="features-grid">
-            <div class="feature-card">
-                <div class="feature-icon feature-icon-blue">⚡</div>
-                <h3 class="feature-name">Instant Apply</h3>
-                <p class="feature-text">Apply to premium roles with a single click. Save your profile and skip the repetitive forms forever.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon feature-icon-purple">🌍</div>
-                <h3 class="feature-name">Global Reach</h3>
-                <p class="feature-text">Access curated job listings from top companies across every industry and location around the globe.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon feature-icon-pink">🔒</div>
-                <h3 class="feature-name">Verified Staff</h3>
-                <p class="feature-text">We manually vet every company on our platform so you only engage with legitimate opportunities.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- ===== CTA ===== -->
-    <section class="cta-section">
-        <div class="cta-box">
-            <h2 class="cta-title">Ready to get started?</h2>
-            <p class="cta-desc">Create your free account today and start applying to top companies in minutes.</p>
-            <a href="{{ route('register') }}" class="btn-white">Create Free Account →</a>
-        </div>
-    </section>
-
-    <!-- ===== FOOTER ===== -->
+    <!-- Footer -->
     <footer class="footer">
-        © {{ date('Y') }} JobBoard. All rights reserved.
+        <div class="copy">
+            &copy; {{ date('Y') }} Davao Job Portal. All rights reserved.
+        </div>
     </footer>
 
+    <!-- MODALS -->
+    <div class="landing-modal-overlay" id="landingModalOverlay" onclick="if(event.target===this)closeLandingModal()">
+        <div class="landing-modal">
+            <div class="landing-modal-header">
+                <div class="landing-modal-icon" id="lmIcon"></div>
+                <button class="landing-modal-close" onclick="closeLandingModal()">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+            <div class="landing-modal-body" id="lmBody"></div>
+            <div class="landing-modal-footer">
+                <button onclick="closeLandingModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('scroll', function() {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        const landingModals = {
+            opportunities: {
+                iconBg: '#eef2ff',
+                iconSvg: '<svg width="28" height="28" fill="none" stroke="#6366f1" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>',
+                html: '<h2>Opportunities</h2>'
+                    + '<p>Davao Job Portal connects you with the best career opportunities across Mindanao. Whether you\'re a fresh graduate or a seasoned professional, we have roles tailored to your ambitions.</p>'
+                    + '<ul>'
+                    + '<li><span class="li-icon" style="background:#eef2ff;color:#6366f1;">✦</span> Technology & Software Development</li>'
+                    + '<li><span class="li-icon" style="background:#ecfdf5;color:#059669;">✦</span> Healthcare & Medical Services</li>'
+                    + '<li><span class="li-icon" style="background:#fffbeb;color:#b45309;">✦</span> Finance, Retail & Hospitality</li>'
+                    + '<li><span class="li-icon" style="background:#fdf2f8;color:#be185d;">✦</span> Education & Creative Industries</li>'
+                    + '</ul>'
+                    + '<p style="margin-top:16px;">Browse our full catalog and find the role that launches your next chapter.</p>'
+            },
+            company: {
+                iconBg: '#f5f3ff',
+                iconSvg: '<svg width="28" height="28" fill="none" stroke="#a855f7" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>',
+                html: '<h2>The Company</h2>'
+                    + '<p><strong>Davao Digital Solutions Inc.</strong> is a startup technology company located in Davao City that provides digital services to local businesses.</p>'
+                    + '<p>We focus on helping small and medium enterprises (SMEs) transition into the digital world by offering web development, job posting systems, and business management tools.</p>'
+                    + '<p>Our company aims to support the growing business community in Davao by providing affordable, reliable, and user-friendly technology solutions that make a real difference.</p>'
+            },
+            vision: {
+                iconBg: '#ecfdf5',
+                iconSvg: '<svg width="28" height="28" fill="none" stroke="#10b981" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>',
+                html: '<h2>Vision & Mission</h2>'
+                    + '<p><strong>Our Vision:</strong> To become one of the leading IT solution providers in Mindanao by empowering local businesses through innovative digital platforms.</p>'
+                    + '<p style="margin-bottom:4px;"><strong>Our Mission:</strong></p>'
+                    + '<ul>'
+                    + '<li><span class="li-icon" style="background:#ecfdf5;color:#059669;">✓</span> Deliver high-quality and affordable IT solutions</li>'
+                    + '<li><span class="li-icon" style="background:#ecfdf5;color:#059669;">✓</span> Support local businesses in digital transformation</li>'
+                    + '<li><span class="li-icon" style="background:#ecfdf5;color:#059669;">✓</span> Provide excellent customer service & technical support</li>'
+                    + '</ul>'
+            }
+        };
+
+        function openLandingModal(key) {
+            const data = landingModals[key];
+            const overlay = document.getElementById('landingModalOverlay');
+            const icon = document.getElementById('lmIcon');
+            const body = document.getElementById('lmBody');
+
+            icon.style.background = data.iconBg;
+            icon.innerHTML = data.iconSvg;
+            body.innerHTML = data.html;
+
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLandingModal() {
+            document.getElementById('landingModalOverlay').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeLandingModal();
+        });
+    </script>
 </body>
 </html>

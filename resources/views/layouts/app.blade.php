@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'JobBoard')</title>
+    <title>@yield('title', 'Davao Job Portal')</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6fb; display: flex; min-height: 100vh; color: #1e293b; }
+        body { font-family: 'Inter', -apple-system, sans-serif; background: #f1f4f9; display: flex; min-height: 100vh; color: #1e293b; }
 
         @guest
         .sidebar { display: none !important; }
@@ -20,26 +20,26 @@
 
         /* ===== SIDEBAR ===== */
         .sidebar {
-            width: 250px; background: #ffffff; min-height: 100vh;
-            padding: 28px 16px; display: flex; flex-direction: column;
+            width: 260px; background: #ffffff; min-height: 100vh;
+            padding: 24px 16px; display: flex; flex-direction: column;
             position: fixed; top: 0; left: 0;
             border-right: 1px solid #eef2f7;
             z-index: 100;
+            box-shadow: 4px 0 24px rgba(0,0,0,0.02);
         }
         .sidebar-logo {
-            display: flex; align-items: center; gap: 10px;
+            display: flex; flex-direction: column; align-items: center;
             padding: 0 12px; margin-bottom: 36px;
             text-decoration: none;
         }
+        .sidebar { transition: all 0.3s ease; }
         .sidebar-logo-icon {
-            width: 34px; height: 34px;
-            background: #6366f1; border-radius: 10px;
+            width: 140px; height: 140px;
+            background: white; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            color: white; font-weight: 900; font-size: 16px;
-        }
-        .sidebar-logo-text {
-            font-size: 22px; font-weight: 900; color: #0f172a;
-            letter-spacing: -0.5px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            margin-bottom: 8px;
+            overflow: hidden; padding: 4px;
         }
         .sidebar-logo-dot { color: #6366f1; }
         .nav-label {
@@ -68,7 +68,7 @@
         .logout-btn svg { width: 20px; height: 20px; }
 
         /* ===== MAIN ===== */
-        .main { margin-left: 250px; flex: 1; min-height: 100vh; display: flex; flex-direction: column; }
+        .main { margin-left: 260px; flex: 1; min-height: 100vh; display: flex; flex-direction: column; }
 
         /* ===== TOPBAR ===== */
         .topbar {
@@ -119,32 +119,24 @@
 <!-- ===== SIDEBAR ===== -->
 <div class="sidebar">
     <a href="{{ auth()->user()->isAdmin() ? route('admin.dashboard') : route('home') }}" class="sidebar-logo">
-        <div class="sidebar-logo-icon">J</div>
-        <span class="sidebar-logo-text">JobBoard<span class="sidebar-logo-dot">.</span></span>
+        <div class="sidebar-logo-icon">
+            <img src="{{ asset('images/logo.png') }}" alt="Logo" style="width: 100%; height: 100%; object-fit: contain;">
+        </div>
     </a>
     <br>
 
-        @if(auth()->user()->isAdmin())
-        <a href="{{ route('admin.dashboard') }}" class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
-            Dashboard
-        </a>
-        @else
-        <a href="{{ route('home') }}" class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
-            Dashboard
-        </a>
-        @endif
+
     @endauth
 
-    <br>
-
-
-
+    <!-- Browse Jobs - visible to all -->
+    <a href="{{ route('jobs.index') }}" class="nav-link {{ request()->routeIs('jobs.index') ? 'active' : '' }}">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        Browse Jobs
+    </a>
 
 
     @auth
-        @if(auth()->user()->isStaff() || auth()->user()->isAdmin())
+        @if(auth()->user()->isHR() || auth()->user()->isAdmin())
         <a href="{{ route('jobs.create') }}" class="nav-link {{ request()->routeIs('jobs.create') ? 'active' : '' }}">
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
             Post a Job
@@ -152,6 +144,10 @@
         <a href="{{ route('applications.received') }}" class="nav-link {{ request()->routeIs('applications.received') ? 'active' : '' }}">
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
             Applicants
+        </a>
+        <a href="{{ route('applications.archived') }}" class="nav-link {{ request()->routeIs('applications.archived') ? 'active' : '' }}">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/></svg>
+            Archive
         </a>
         @endif
 
@@ -183,9 +179,10 @@
     <div class="topbar">
         <div style="display: flex; align-items: center; gap: 24px;">
             @guest
-            <a href="/" style="display: flex; align-items: center; gap: 8px; text-decoration: none;">
-                <div style="width: 30px; height: 30px; background: #6366f1; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 900; font-size: 14px;">J</div>
-                <span style="font-size: 18px; font-weight: 900; color: #0f172a; letter-spacing: -0.5px;">JobBoard</span>
+            <a href="/" style="display: flex; align-items: center; text-decoration: none;">
+                <div style="width: 50px; height: 50px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                    <img src="{{ asset('images/logo.png') }}" alt="Logo" style="width: 100%; height: 100%; object-fit: contain;">
+                </div>
             </a>
             @endguest
             
@@ -200,7 +197,7 @@
         </div>
         <div class="topbar-right">
             @auth
-            <span class="badge badge-{{ auth()->user()->role == 'staff' ? 'staff' : auth()->user()->role }}">{{ auth()->user()->role == 'staff' ? 'Staff' : ucfirst(auth()->user()->role) }}</span>
+            <span class="badge badge-{{ auth()->user()->isHR() ? 'staff' : (auth()->user()->role == 'admin' ? 'admin' : 'applicant') }}">{{ auth()->user()->isHR() ? 'HR' : ucfirst(auth()->user()->role) }}</span>
             <div class="avatar">{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</div>
             @else
             <div style="display: flex; align-items: center; gap: 12px;">

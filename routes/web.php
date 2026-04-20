@@ -21,7 +21,7 @@ Route::get('/jobs', [JobPostController::class, 'index'])->name('jobs.index');
 Route::middleware(['auth'])->group(function () {
 
     // Employer: manage own job posts
-    Route::middleware(['role:staff,admin'])->group(function () {
+    Route::middleware(['role:staff,admin,employer,hr'])->group(function () {
         Route::get('/jobs/create', [JobPostController::class, 'create'])->name('jobs.create');
         Route::post('/jobs', [JobPostController::class, 'store'])->name('jobs.store');
         Route::get('/jobs/{job}/edit', [JobPostController::class, 'edit'])->name('jobs.edit');
@@ -30,8 +30,10 @@ Route::middleware(['auth'])->group(function () {
 
         // Employer: manage applicants
         Route::get('/received-applications', [ApplicationController::class, 'receivedApplications'])->name('applications.received');
+        Route::get('/archived-applications', [ApplicationController::class, 'archivedApplications'])->name('applications.archived');
         Route::get('/jobs/{job}/applicants', [ApplicationController::class, 'jobApplicants'])->name('jobs.applicants');
         Route::patch('/applications/{application}/status', [ApplicationController::class, 'updateStatus'])->name('applications.updateStatus');
+        Route::post('/applications/{application}/archive', [ApplicationController::class, 'archive'])->name('applications.archive');
     });
 
     // Test route without role middleware

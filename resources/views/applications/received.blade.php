@@ -54,7 +54,7 @@
                             @csrf @method('PATCH')
                             <input type="hidden" name="status" value="rejected">
                             <button style="background: white; border: 1px solid #e2e8f0; color: #ef4444; padding: 10px 20px; border-radius: 10px; font-size: 13px; font-weight: 800; cursor: pointer; font-family: inherit; transition: all 0.2s;" onmouseover="this.style.background='#fef2f2'; this.style.borderColor='#fecaca'" onmouseout="this.style.background='white'; this.style.borderColor='#e2e8f0'">
-                                Decline
+                                Reject
                             </button>
                         </form>
                     </div>
@@ -67,9 +67,22 @@
                 </div>
             </div>
 
+            <!-- Resume / Attachment Button -->
+            @if($app->resume_path)
+            <div style="margin-top: 24px; display: flex; align-items: center; gap: 12px;">
+                <a href="{{ asset('storage/' . $app->resume_path) }}" target="_blank" 
+                   style="display: inline-flex; align-items: center; gap: 10px; background: #f8fafc; color: #475569; text-decoration: none; padding: 12px 20px; border-radius: 12px; font-size: 13px; font-weight: 700; border: 1px solid #e2e8f0; transition: all 0.2s;"
+                   onmouseover="this.style.background='#eef2ff'; this.style.color='#6366f1'; this.style.borderColor='#c7d2fe'"
+                   onmouseout="this.style.background='#f8fafc'; this.style.color='#475569'; this.style.borderColor='#e2e8f0'">
+                    <svg style="width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                    View Candidate Resume
+                </a>
+            </div>
+            @endif
+
             <!-- Cover Letter Preview -->
             @if($app->cover_letter)
-            <div style="margin-top: 24px; padding-top: 24px; border-top: 1px solid #f1f5f9;">
+            <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #f1f5f9;">
                 <p style="font-size: 11px; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px;">Candidate Message</p>
                 <p style="font-size: 14px; color: #334155; line-height: 1.6; font-weight: 500;">
                     "{{ Str::limit($app->cover_letter, 200) }}"

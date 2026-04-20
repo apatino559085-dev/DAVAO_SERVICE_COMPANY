@@ -3,7 +3,7 @@
 @section('content')
 <div style="max-width: 700px; margin: 0 auto; background: white; border-radius: 24px; border: 1px solid #eef2f7; padding: 40px;">
     <h1 style="font-size: 24px; font-weight: 900; color: #0f172a; margin-bottom: 28px;">Edit Job Post</h1>
-    <form method="POST" action="{{ route('jobs.update', $job) }}">
+    <form method="POST" action="{{ route('jobs.update', $job) }}" enctype="multipart/form-data">
         @csrf @method('PUT')
         @include('jobs._form')
         <div style="margin-top: 28px; display: flex; gap: 14px; align-items: center;">
