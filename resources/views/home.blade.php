@@ -295,12 +295,12 @@
     <div class="chada-header">
         <div class="chada-header-content">
             <div>
-                <h1 class="chada-title">Supercharge Your Hiring</h1>
-                <p class="chada-subtitle">Manage postings and discover top-tier talent with ease.</p>
+                <h1 class="chada-title">Davao Central Services Company</h1>
+                <p class="chada-subtitle">Manage open roles and review applicants for each position.</p>
             </div>
             <a href="{{ route('jobs.create') }}" class="btn-chada">
                 <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-                Post New Job
+                Add New Role
             </a>
         </div>
     </div>
@@ -321,18 +321,18 @@
                 <svg width="32" height="32" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
             </div>
             <div>
-                <div class="stat-value">{{ $recentApplications->count() }}</div>
+                <div class="stat-value">{{ $totalAppCount }}</div>
                 <div class="stat-label">TOTAL APPLICANTS</div>
             </div>
         </div>
     </div>
 
     <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 32px;">
-        <!-- YOUR ACTIVE JOBS -->
+        <!-- ACTIVE ROLES -->
         <div>
             <div class="section-title">
-                Your Active Jobs
-                <a href="{{ route('jobs.index') }}" class="view-all-link">View Everything <span>→</span></a>
+                Job Listings
+                <a href="{{ route('jobs.index') }}" class="view-all-link">View All Listings <span>→</span></a>
             </div>
             
             <div style="display: flex; flex-direction: column;">
@@ -359,12 +359,12 @@
                     
                     <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 16px; border-top: 1px solid #f1f5f9;">
                         <span style="font-size: 13px; font-weight: 600; color: #94a3b8;">Posted {{ $job->created_at->diffForHumans() }}</span>
-                        <a href="{{ route('jobs.show', $job) }}" style="color: #4f46e5; font-size: 14px; font-weight: 800; text-decoration: none;">Manage Details →</a>
+                        <a href="{{ route('jobs.show', $job) }}" style="color: #4f46e5; font-size: 14px; font-weight: 800; text-decoration: none;">Manage Role →</a>
                     </div>
                 </div>
                 @empty
                 <div style="background: rgba(255,255,255,0.5); border-radius: 20px; padding: 48px; border: 2px dashed #cbd5e1; text-align: center;">
-                    <br><br><p style="font-size: 16px; color: #64748b; font-weight: 600;">No active jobs yet. Time to hire!</p>
+                    <br><br><p style="font-size: 16px; color: #64748b; font-weight: 600;">No active roles yet. Time to add positions!</p>
                 </div>
                 @endforelse
             </div>
@@ -411,14 +411,14 @@
     <div class="chada-header" style="background: var(--gradient-dark);">
         <div class="chada-header-content" style="flex-direction: column; text-align: center; gap: 24px;">
             <div>
-                <h1 style="font-size: 48px; font-weight: 900; letter-spacing: -2px; margin-bottom: 12px; text-shadow: 0 4px 10px rgba(0,0,0,0.3);">Discover Your Life's Work</h1>
-                <p style="font-size: 18px; font-weight: 500; color: #cbd5e1; max-width: 600px; margin: 0 auto;">Explore the best opportunities tailored to your skills. Step into greatness today.</p>
+                <h1 style="font-size: 48px; font-weight: 900; letter-spacing: -2px; margin-bottom: 12px; text-shadow: 0 4px 10px rgba(0,0,0,0.3);">Davao Central Services Company</h1>
+                <p style="font-size: 18px; font-weight: 500; color: #cbd5e1; max-width: 600px; margin: 0 auto;">Explore available roles within the company and apply for the position that fits your skills.</p>
             </div>
         </div>
     </div>
 
     <div class="section-title" style="justify-content: center; margin-bottom: 40px; font-size: 32px;">
-        Featured Roles
+        Open Roles
     </div>
 
     <div class="job-grid">
@@ -434,7 +434,7 @@
                 @endif
                 <div>
                     <h3 style="font-size: 20px; font-weight: 900; color: #0f172a; margin-bottom: 6px; line-height: 1.2;">{{ $job->title }}</h3>
-                    <p style="font-size: 15px; color: #64748b; font-weight: 700;">{{ $job->company }}</p>
+                    <p style="font-size: 15px; color: #64748b; font-weight: 700;">Davao Central Services Company</p>
                 </div>
             </div>
             
@@ -454,7 +454,7 @@
                     <div style="font-size: 12px; font-weight: 800; color: #94a3b8; text-transform: uppercase; margin-bottom: 4px; letter-spacing: 0.5px;">Salary range</div>
                     <div style="font-size: 18px; font-weight: 900; color: #0f172a;">{{ $job->salary }}</div>
                 </div>
-                <a href="{{ route('jobs.show', $job) }}" class="btn-apply">View Setup</a>
+                <a href="{{ route('jobs.show', $job) }}" class="btn-apply">View Role</a>
             </div>
         </div>
         @endforeach
@@ -463,7 +463,7 @@
     @if($jobs->count() > 6)
     <div style="text-align: center; margin-top: 56px;">
         <a href="{{ route('jobs.index') }}" style="display: inline-flex; align-items: center; gap: 12px; background: white; border: 2px solid #e2e8f0; color: #0f172a; font-size: 16px; font-weight: 800; padding: 16px 40px; border-radius: 16px; text-decoration: none; transition: all 0.3s; box-shadow: 0 4px 6px rgba(0,0,0,0.02);" onmouseover="this.style.borderColor='#0f172a'; this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='#e2e8f0'; this.style.transform='translateY(0)'">
-            Reveal All Jobs
+        View All Listings
             <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4-4m4-4H3"/></svg>
         </a>
     </div>
@@ -538,14 +538,14 @@
             icon: '⚡',
             color: '#eef2ff',
             textColor: '#6366f1',
-            text: 'Discover a world of possibilities with Davao Job Portal. We connect top Mindanao talent with ground-breaking roles across technology, finance, healthcare, and creative industries. Your next big career move starts with a single click.'
+            text: 'Discover a world of possibilities with Davao Central Services Company. Your next big career move starts here.'
         },
         company: {
             title: 'The Company',
             icon: '🏢',
             color: '#f5f3ff',
             textColor: '#a855f7',
-            text: 'Founded in the heart of Davao City, our portal is more than just a job board. We are a bridge between local innovation and global standards, dedicated to building the most efficient and user-friendly recruitment ecosystem in the Philippines.'
+            text: 'Davao Central Services Company is dedicated to excellence and building a professional work environment for all its staff.'
         },
         vision: {
             title: 'Our Vision',

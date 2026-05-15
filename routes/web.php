@@ -22,6 +22,7 @@ Route::middleware(['auth'])->group(function () {
 
     // Employer: manage own job posts
     Route::middleware(['role:staff,admin,employer,hr'])->group(function () {
+        Route::get('/my-jobs', [JobPostController::class, 'myJobs'])->name('jobs.my');
         Route::get('/jobs/create', [JobPostController::class, 'create'])->name('jobs.create');
         Route::post('/jobs', [JobPostController::class, 'store'])->name('jobs.store');
         Route::get('/jobs/{job}/edit', [JobPostController::class, 'edit'])->name('jobs.edit');
@@ -33,7 +34,10 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/archived-applications', [ApplicationController::class, 'archivedApplications'])->name('applications.archived');
         Route::get('/jobs/{job}/applicants', [ApplicationController::class, 'jobApplicants'])->name('jobs.applicants');
         Route::patch('/applications/{application}/status', [ApplicationController::class, 'updateStatus'])->name('applications.updateStatus');
+        Route::post('/applications/{application}/undo', [ApplicationController::class, 'undoStatus'])->name('applications.undo');
         Route::post('/applications/{application}/archive', [ApplicationController::class, 'archive'])->name('applications.archive');
+        Route::post('/applications/{application}/schedule', [ApplicationController::class, 'scheduleInterview'])->name('applications.scheduleInterview');
+        Route::post('/applications/{application}/rate', [ApplicationController::class, 'rateApplicant'])->name('applications.rate');
     });
 
     // Test route without role middleware
@@ -50,6 +54,8 @@ Route::middleware(['auth'])->group(function () {
     // Admin only
     Route::middleware(['role:admin'])->prefix('admin')->name('admin.')->group(function () {
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+        Route::get('/archived-jobs', [AdminController::class, 'archivedJobs'])->name('archived-jobs');
+        Route::get('/report', [AdminController::class, 'generateReport'])->name('report');
         Route::patch('/users/{user}/toggle', [AdminController::class, 'toggleUserStatus'])->name('users.toggle');
         Route::delete('/jobs/{job}', [AdminController::class, 'destroyJob'])->name('jobs.destroy');
     });

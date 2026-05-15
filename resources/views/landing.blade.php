@@ -3,331 +3,273 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Davao Job Portal — Empowering Davao's Digital Future</title>
+    <title>Davao Central Services Company | Hiring Management System</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --secondary: #a855f7;
-            --bg: #f1f4f9;        /* Matches dashboard */
-            --text-main: #0f172a; /* Dark text for light mode */
-            --text-muted: #64748b;
-            --glass-bg: rgba(255, 255, 255, 0.7);
-            --glass-border: rgba(255, 255, 255, 0.5);
-            --glass-shadow: 0 10px 40px 0 rgba(31, 38, 135, 0.05);
+            --bg-light: #f8fafc; /* Clean off-white matching dashboard */
+            --bg-white: #ffffff;
+            --primary-dark: #022c22;
+            --primary-light: #064e3b;
+            --accent: #10b981; /* Emerald green */
+            --accent-hover: #059669;
+            --text-dark: #0f172a;
+            --text-light: #64748b;
         }
 
-        * { margin:0; padding:0; box-sizing:border-box; }
-        html { scroll-behavior: smooth; }
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg);
-            color: var(--text-main);
-            line-height: 1.6;
-            overflow: hidden;
-            position: relative;
-            height: 100vh;
-        }
-
-        /* Background Effects */
-        .ambient-blob {
-            position: fixed;
-            width: 600px;
-            height: 600px;
-            border-radius: 50%;
-            filter: blur(120px);
-            z-index: -1;
-            opacity: 0.4;
-            pointer-events: none;
-            animation: float-blob 20s infinite ease-in-out alternate;
-        }
-        .blob-1 { top: -10%; left: -10%; background: rgba(99, 102, 241, 0.3); }
-        .blob-2 { bottom: -10%; right: -10%; background: rgba(168, 85, 247, 0.3); animation-delay: -5s; }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
         
-        @keyframes float-blob {
-            0% { transform: translate(0, 0) rotate(0deg); }
-            100% { transform: translate(50px, 50px) rotate(180deg); }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg-light);
+            min-height: 100vh;
+            color: var(--text-dark);
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            position: relative;
         }
 
-        /* Navbar */
-        .nav {
-            position: fixed; top: 0; width: 100%; z-index: 1000;
-            padding: 24px 0; transition: all 0.3s ease;
+        /* Ambient Light Background Glows */
+        .ambient-glow-1 {
+            position: absolute; top: -150px; left: -100px; width: 800px; height: 800px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.08) 0%, transparent 60%);
+            border-radius: 50%; z-index: -1;
         }
-        .nav.scrolled {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(20px);
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+        .ambient-glow-2 {
+            position: absolute; bottom: -200px; right: -100px; width: 1000px; height: 1000px;
+            background: radial-gradient(circle, rgba(251, 191, 36, 0.08) 0%, transparent 60%);
+            border-radius: 50%; z-index: -1;
         }
-        .nav.scrolled .logo-box {
-            width: 50px; height: 50px;
+        .grid-overlay {
+            position: absolute; inset: 0; z-index: -1; opacity: 0.4;
+            background-image: linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            mask-image: radial-gradient(circle at center, black 40%, transparent 90%);
+            -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 90%);
+        }
+
+        /* Navigation */
+        nav {
+            padding: 24px 60px; display: flex; justify-content: space-between; align-items: center;
+            max-width: 1400px; margin: 0 auto; width: 100%; position: relative; z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            background: rgba(255, 255, 255, 0.9); /* White with opacity */
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            padding: 16px 60px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            position: fixed; top: 0; left: 0; right: 0;
+            max-width: 100%; border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .logo-container {
+            display: flex; align-items: center; gap: 12px; text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 48px; height: 48px; border-radius: 50%; overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1); border: 2px solid white; background: white;
+            display: flex; align-items: center; justify-content: center;
+        }
+        
+        .logo-icon img { 
+            width: 100%; height: 100%; object-fit: cover; 
             border-radius: 50%;
         }
-        .nav-content {
-            max-width: 1200px; margin: 0 auto; padding: 0 40px;
-            display: flex; align-items: center; justify-content: space-between;
-        }
-        .logo {
-            text-decoration: none; display: flex; align-items: center; gap: 12px;
-        }
-        .logo-box {
-            width: 64px; height: 64px; background: white;
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            overflow: hidden; padding: 4px; border: 1px solid var(--glass-border);
-            transition: all 0.3s;
-        }
-        .logo-box img { width: 100%; height: 100%; object-fit: contain; }
-        .nav-links { display: flex; align-items: center; gap: 32px; }
-        .nav-link {
-            color: var(--text-muted); text-decoration: none; font-weight: 700; font-size: 14px;
-            transition: color 0.2s;
-        }
-        .nav-link:hover { color: var(--primary); }
-        .btn {
-            padding: 12px 28px; border-radius: 12px; font-weight: 700; font-size: 14px;
-            text-decoration: none; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            display: inline-flex; align-items: center; gap: 8px; cursor: pointer;
-        }
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white; box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.4);
-        }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 15px 30px -5px rgba(99, 102, 241, 0.5); }
-        .btn-outline {
-            background: var(--glass-bg); backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border); color: var(--text-main);
-            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
-        }
-        .btn-outline:hover { background: white; transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
 
-        /* Hero */
+        .logo-text { font-size: 16px; font-weight: 900; color: var(--text-dark); letter-spacing: -0.5px; text-transform: uppercase;}
+
+        .nav-links { display: flex; gap: 16px; align-items: center; }
+
+        .btn-outline {
+            background: transparent; border: 1px solid #cbd5e1; color: var(--text-dark);
+            padding: 12px 28px; border-radius: 14px; font-size: 14px; font-weight: 800;
+            text-decoration: none; transition: all 0.3s;
+        }
+        .btn-outline:hover { background: #f1f5f9; border-color: #94a3b8; transform: translateY(-2px); }
+
+        .btn-primary {
+            background: var(--primary-dark); color: white;
+            padding: 14px 32px; border-radius: 14px; font-size: 14px; font-weight: 900;
+            text-decoration: none; transition: all 0.3s; box-shadow: 0 10px 25px rgba(2, 44, 34, 0.2);
+        }
+        .btn-primary:hover { background: var(--primary-light); transform: translateY(-2px); box-shadow: 0 15px 35px rgba(2, 44, 34, 0.3); }
+
+        /* Main Hero Split */
         .hero {
-            position: relative; height: calc(100vh - 50px); display: flex; align-items: center;
-            padding: 100px 40px 40px;
+            flex: 1; display: grid; grid-template-columns: 1.2fr 1fr; gap: 60px;
+            max-width: 1400px; margin: 0 auto; width: 100%; padding: 60px;
+            align-items: center; position: relative; z-index: 10;
         }
-        .hero-container {
-            max-width: 1200px; margin: 0 auto; display: grid;
-            grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+
+        /* Left Side: Copy */
+        .hero-content {
+            padding-right: 40px;
+            animation: slideRight 0.8s cubic-bezier(0.4, 0, 0.2, 1) both;
         }
-        .hero-badge {
-            display: inline-flex; align-items: center; gap: 8px;
-            background: white; border: 1px solid rgba(99, 102, 241, 0.2);
-            color: var(--primary); padding: 8px 16px; border-radius: 100px;
-            font-size: 12px; font-weight: 800; margin-bottom: 24px;
-            text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+
+        .badge {
+            background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); color: #059669;
+            padding: 10px 20px; border-radius: 100px; font-size: 12px; font-weight: 900;
+            text-transform: uppercase; letter-spacing: 2px; margin-bottom: 32px;
+            display: inline-flex; align-items: center; gap: 10px;
         }
-        .hero-title {
-            font-size: clamp(40px, 5.5vw, 64px); color: var(--text-main); font-weight: 900;
-            line-height: 1.1; margin-bottom: 24px; letter-spacing: -2px;
+
+        .title {
+            font-size: 72px; font-weight: 900; color: var(--text-dark);
+            line-height: 1.05; letter-spacing: -3px; margin-bottom: 24px;
         }
-        .text-gradient {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        .title span { 
+            background: linear-gradient(135deg, var(--accent), #059669);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-        .hero-desc {
-            font-size: 18px; color: var(--text-muted); margin-bottom: 40px;
-            max-width: 500px; font-weight: 500; line-height: 1.6;
-        }
-        .hero-visual { position: relative; }
-        .hero-image-card {
-            background: white; border: 1px solid rgba(0,0,0,0.05);
-            padding: 12px; border-radius: 32px; box-shadow: 0 30px 60px rgba(0,0,0,0.08);
-            transform: rotate(2deg); transition: transform 0.5s;
-        }
-        .hero-image-card:hover { transform: rotate(0deg); }
-        .hero-image-card img { width: 100%; border-radius: 20px; display: block; }
 
-        /* Sections */
-        .section { padding: 100px 40px; }
-        .section-container { max-width: 1200px; margin: 0 auto; }
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .subtitle {
+            font-size: 20px; font-weight: 500; color: var(--text-light);
+            margin-bottom: 48px; line-height: 1.7; max-width: 550px;
+        }
+
+        .action-group { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+
+        /* Right Side: The Giant Logo */
+        .hero-visual {
+            display: flex; justify-content: center; align-items: center; position: relative;
+            animation: fadeInScale 1s cubic-bezier(0.4, 0, 0.2, 1) both 0.2s;
+        }
+
+        .giant-logo-container {
+            width: 550px; height: 550px; border-radius: 50%;
+            background: white; 
+            box-shadow: 
+                0 0 0 10px rgba(255, 255, 255, 0.5),
+                0 25px 50px -12px rgba(0, 0, 0, 0.15),
+                0 0 80px rgba(16, 185, 129, 0.15);
+            display: flex; align-items: center; justify-content: center; padding: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Decorative orbiting rings around the logo */
+        .giant-logo-container::before {
+            content: ''; position: absolute; inset: -40px; border-radius: 50%;
+            border: 2px dashed rgba(16, 185, 129, 0.2);
+            animation: spin 60s linear infinite; z-index: -1;
+        }
+        .giant-logo-container::after {
+            content: ''; position: absolute; inset: -80px; border-radius: 50%;
+            border: 1px solid rgba(251, 191, 36, 0.2);
+            animation: spin 90s linear infinite reverse; z-index: -1;
+        }
+
+        .giant-logo-container img {
+            width: 100%; height: 100%; object-fit: cover;
+            border-radius: 50%;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
         
-        .card {
-            background: var(--glass-bg); backdrop-filter: blur(16px);
-            border: 1px solid var(--glass-border); box-shadow: var(--glass-shadow);
-            padding: 48px; border-radius: 32px; height: 100%; transition: all 0.3s ease;
+        .giant-logo-container:hover img {
+            transform: scale(1.05);
         }
-        .card:hover { transform: translateY(-5px); box-shadow: 0 20px 50px rgba(0,0,0,0.08); background: white; }
-        
-        .tag {
-            font-size: 12px; font-weight: 800; color: var(--primary);
-            text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; display: inline-block;
-            background: rgba(99,102,241,0.1); padding: 6px 14px; border-radius: 100px;
-        }
-        .h2 { font-size: 32px; font-weight: 900; color: var(--text-main); margin-bottom: 24px; letter-spacing: -1px; }
-        .p { font-size: 16px; color: var(--text-muted); font-weight: 500; margin-bottom: 24px; line-height: 1.6;}
 
-        /* Vision/Mission List */
-        .list { list-style: none; margin-top: 24px; }
-        .list-item { display: flex; gap: 16px; margin-bottom: 16px; align-items: center; }
-        .list-icon {
-            width: 32px; height: 32px; background: linear-gradient(135deg, #e0e7ff, #c7d2fe);
-            border-radius: 10px; color: var(--primary); display: flex;
-            align-items: center; justify-content: center; font-size: 14px; font-weight: 900; flex-shrink: 0;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        @keyframes slideRight {
+            from { opacity: 0; transform: translateX(-40px); }
+            to { opacity: 1; transform: translateX(0); }
         }
-        .list-text { font-weight: 700; color: var(--text-main); font-size: 15px; }
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        /* Footer */
-        .footer { padding: 16px 40px; text-align: center; border-top: 1px solid rgba(0,0,0,0.05); position: fixed; bottom: 0; left: 0; right: 0; z-index: 10; }
-        .copy { color: var(--text-muted); font-size: 14px; font-weight: 600; }
-
-        /* Landing Modals */
-        .landing-modal-overlay {
-            display: none; position: fixed; inset: 0;
-            background: rgba(15, 23, 42, 0.55); backdrop-filter: blur(10px);
-            z-index: 9999; align-items: center; justify-content: center; padding: 24px;
+        @media (max-width: 1200px) {
+            .title { font-size: 56px; }
+            .giant-logo-container { width: 450px; height: 450px; }
         }
-        .landing-modal-overlay.active { display: flex; }
-        .landing-modal {
-            background: white; width: 100%; max-width: 520px;
-            border-radius: 28px; overflow: hidden;
-            box-shadow: 0 25px 60px -12px rgba(0,0,0,0.25);
-            transform: scale(0.95); opacity: 0;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .landing-modal-overlay.active .landing-modal {
-            transform: scale(1); opacity: 1;
-        }
-        .landing-modal-header {
-            padding: 32px 32px 0; display: flex; align-items: flex-start;
-            justify-content: space-between;
-        }
-        .landing-modal-icon {
-            width: 56px; height: 56px; border-radius: 16px;
-            display: flex; align-items: center; justify-content: center;
-        }
-        .landing-modal-close {
-            width: 36px; height: 36px; border-radius: 50%; background: #f8fafc;
-            border: none; color: #94a3b8; cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
-            transition: all 0.2s; flex-shrink: 0;
-        }
-        .landing-modal-close:hover { background: #f1f5f9; color: #0f172a; }
-        .landing-modal-body { padding: 24px 32px 32px; }
-        .landing-modal-body h2 {
-            font-size: 24px; font-weight: 900; color: #0f172a;
-            margin-bottom: 16px; letter-spacing: -0.5px;
-        }
-        .landing-modal-body p {
-            font-size: 15px; color: #64748b; line-height: 1.7;
-            font-weight: 500; margin-bottom: 12px;
-        }
-        .landing-modal-body ul {
-            list-style: none; margin-top: 16px;
-        }
-        .landing-modal-body ul li {
-            display: flex; align-items: center; gap: 12px;
-            padding: 10px 0; font-size: 14px; font-weight: 700;
-            color: #334155;
-        }
-        .landing-modal-body ul li .li-icon {
-            width: 28px; height: 28px; border-radius: 8px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 12px; font-weight: 900; flex-shrink: 0;
-        }
-        .landing-modal-footer {
-            padding: 0 32px 32px;
-        }
-        .landing-modal-footer button {
-            width: 100%; padding: 14px; border-radius: 14px;
-            background: #0f172a; color: white; border: none;
-            font-size: 14px; font-weight: 800; cursor: pointer;
-            transition: background 0.2s; font-family: inherit;
-        }
-        .landing-modal-footer button:hover { background: #1e293b; }
 
         @media (max-width: 968px) {
-            .hero-container, .grid-2 { grid-template-columns: 1fr; }
-            .hero-visual { order: -1; }
-            .hero { padding-top: 140px; text-align: center; }
-            .hero-desc { margin-left: auto; margin-right: auto; }
-            .nav-links { display: none; }
+            .hero { grid-template-columns: 1fr; text-align: center; gap: 60px; padding: 120px 20px 40px; }
+            .hero-content { padding-right: 0; display: flex; flex-direction: column; align-items: center; }
+            .giant-logo-container { width: 350px; height: 350px; }
+            nav { padding: 20px; flex-direction: column; gap: 20px; }
+            nav.scrolled { flex-direction: row; padding: 12px 20px; }
+            nav.scrolled .logo-text { display: none; }
+            .action-group { justify-content: center; }
         }
     </style>
 </head>
 <body>
 
-    <div class="ambient-blob blob-1"></div>
-    <div class="ambient-blob blob-2"></div>
+    <div class="grid-overlay"></div>
+    <div class="ambient-glow-1"></div>
+    <div class="ambient-glow-2"></div>
 
-    <!-- Navigation -->
-    <nav class="nav" id="navbar">
-        <div class="nav-content">
-            <a href="/" class="logo">
-                <div class="logo-box">
-                    <img src="{{ asset('images/logo.png') }}" alt="Davao Job Portal Logo">
-                </div>
-                <div style="font-weight: 900; font-size: 20px; color: var(--text-main); letter-spacing: -0.5px;">Davao Job Portal</div>
-            </a>
+    <nav id="navbar">
+        <a href="/" class="logo-container">
+            <div class="logo-icon">
+                <img src="{{ asset('images/logo (2).png') }}" alt="Logo" onerror="this.style.display='none'">
+            </div>
+            <div class="logo-text">Davao Central Services</div>
+        </a>
+
+        @if (Route::has('login'))
             <div class="nav-links">
-                <a href="javascript:void(0)" onclick="openLandingModal('opportunities')" class="nav-link">Opportunities</a>
-                <a href="javascript:void(0)" onclick="openLandingModal('company')" class="nav-link">The Company</a>
-                <a href="javascript:void(0)" onclick="openLandingModal('vision')" class="nav-link">Our Vision</a>
                 @auth
-                    <a href="{{ route('home') }}" class="btn btn-primary">Go to Dashboard</a>
+                    <a href="{{ auth()->user()->isAdmin() ? route('admin.dashboard') : route('home') }}" class="btn-primary">
+                        Enter System Workspace →
+                    </a>
                 @else
-                    <a href="{{ route('login') }}" class="btn btn-outline">Sign In</a>
-                    <a href="{{ route('register') }}" class="btn btn-primary">Start Your Journey</a>
+                    <a href="{{ route('login') }}" class="btn-outline">Sign In</a>
+                    @if (Route::has('register'))
+                        <a href="{{ route('register') }}" class="btn-primary">Start Your Journey</a>
+                    @endif
                 @endauth
             </div>
-        </div>
+        @endif
     </nav>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-container">
-            <div class="hero-text">
-                <div class="hero-badge">⚡ Join Davao's Tech Revolution</div>
-                <h1 class="hero-title">
-                    Empowering Davao's <br>
-                    <span class="text-gradient">Digital Dreams.</span>
-                </h1>
-                <p class="hero-desc">
-                    We connect Mindanao's most talented professionals with innovative digital solutions. Start building the future of Davao City with us.
-                </p>
-                <div style="display: flex; gap: 16px; flex-wrap: wrap;">
-                    <a href="{{ route('jobs.index') }}" class="btn btn-primary">Browse Vacancies</a>
-                    <a href="{{ route('register') }}" class="btn btn-outline">Become a Partner</a>
-                </div>
+    <main class="hero">
+        <div class="hero-content">
+            <div class="badge">
+                <span style="width: 8px; height: 8px; background: #34d399; border-radius: 50%; display: inline-block; box-shadow: 0 0 10px #34d399;"></span>
+                Hiring Management System
             </div>
-            <div class="hero-visual">
-                <div class="hero-image-card">
-                    <img src="{{ asset('images/hero_pro.png') }}" alt="Davao Tech Office">
-                </div>
-            </div>
-        </div>
-    </section>
 
+            <h1 class="title">
+                Shaping Our<br>
+                <span>Future Leaders.</span>
+            </h1>
 
+            <p class="subtitle">
+                We connect dedicated professionals with the best opportunities in the service industry. Start building your future with the Davao Central Services Company today.
+            </p>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="copy">
-            &copy; {{ date('Y') }} Davao Job Portal. All rights reserved.
-        </div>
-    </footer>
-
-    <!-- MODALS -->
-    <div class="landing-modal-overlay" id="landingModalOverlay" onclick="if(event.target===this)closeLandingModal()">
-        <div class="landing-modal">
-            <div class="landing-modal-header">
-                <div class="landing-modal-icon" id="lmIcon"></div>
-                <button class="landing-modal-close" onclick="closeLandingModal()">
-                    <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-                </button>
-            </div>
-            <div class="landing-modal-body" id="lmBody"></div>
-            <div class="landing-modal-footer">
-                <button onclick="closeLandingModal()">Close</button>
+            <div class="action-group">
+                <a href="{{ route('jobs.index') }}" class="btn-primary" style="padding: 18px 40px; font-size: 16px;">
+                    Browse Vacancies
+                </a>
+                @if(!auth()->check())
+                <a href="{{ route('register') }}" class="btn-outline" style="padding: 18px 40px; font-size: 16px;">
+                    Become a Partner
+                </a>
+                @endif
             </div>
         </div>
+
+        <div class="hero-visual">
+            <div class="giant-logo-container">
+                <img src="{{ asset('images/logo (2).png') }}" alt="Davao Central Services Company Giant Logo">
+            </div>
+        </div>
+    </main>
+
+    <div style="text-align: center; padding: 24px; font-size: 13px; font-weight: 600; color: #94a3b8; position: relative; z-index: 10;">
+        &copy; {{ date('Y') }} Davao Central Services Company Hiring Management System. All rights reserved.
     </div>
 
     <script>
@@ -339,65 +281,6 @@
                 nav.classList.remove('scrolled');
             }
         });
-
-        const landingModals = {
-            opportunities: {
-                iconBg: '#eef2ff',
-                iconSvg: '<svg width="28" height="28" fill="none" stroke="#6366f1" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>',
-                html: '<h2>Opportunities</h2>'
-                    + '<p>Davao Job Portal connects you with the best career opportunities across Mindanao. Whether you\'re a fresh graduate or a seasoned professional, we have roles tailored to your ambitions.</p>'
-                    + '<ul>'
-                    + '<li><span class="li-icon" style="background:#eef2ff;color:#6366f1;">✦</span> Technology & Software Development</li>'
-                    + '<li><span class="li-icon" style="background:#ecfdf5;color:#059669;">✦</span> Healthcare & Medical Services</li>'
-                    + '<li><span class="li-icon" style="background:#fffbeb;color:#b45309;">✦</span> Finance, Retail & Hospitality</li>'
-                    + '<li><span class="li-icon" style="background:#fdf2f8;color:#be185d;">✦</span> Education & Creative Industries</li>'
-                    + '</ul>'
-                    + '<p style="margin-top:16px;">Browse our full catalog and find the role that launches your next chapter.</p>'
-            },
-            company: {
-                iconBg: '#f5f3ff',
-                iconSvg: '<svg width="28" height="28" fill="none" stroke="#a855f7" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>',
-                html: '<h2>The Company</h2>'
-                    + '<p><strong>Davao Digital Solutions Inc.</strong> is a startup technology company located in Davao City that provides digital services to local businesses.</p>'
-                    + '<p>We focus on helping small and medium enterprises (SMEs) transition into the digital world by offering web development, job posting systems, and business management tools.</p>'
-                    + '<p>Our company aims to support the growing business community in Davao by providing affordable, reliable, and user-friendly technology solutions that make a real difference.</p>'
-            },
-            vision: {
-                iconBg: '#ecfdf5',
-                iconSvg: '<svg width="28" height="28" fill="none" stroke="#10b981" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>',
-                html: '<h2>Vision & Mission</h2>'
-                    + '<p><strong>Our Vision:</strong> To become one of the leading IT solution providers in Mindanao by empowering local businesses through innovative digital platforms.</p>'
-                    + '<p style="margin-bottom:4px;"><strong>Our Mission:</strong></p>'
-                    + '<ul>'
-                    + '<li><span class="li-icon" style="background:#ecfdf5;color:#059669;">✓</span> Deliver high-quality and affordable IT solutions</li>'
-                    + '<li><span class="li-icon" style="background:#ecfdf5;color:#059669;">✓</span> Support local businesses in digital transformation</li>'
-                    + '<li><span class="li-icon" style="background:#ecfdf5;color:#059669;">✓</span> Provide excellent customer service & technical support</li>'
-                    + '</ul>'
-            }
-        };
-
-        function openLandingModal(key) {
-            const data = landingModals[key];
-            const overlay = document.getElementById('landingModalOverlay');
-            const icon = document.getElementById('lmIcon');
-            const body = document.getElementById('lmBody');
-
-            icon.style.background = data.iconBg;
-            icon.innerHTML = data.iconSvg;
-            body.innerHTML = data.html;
-
-            overlay.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeLandingModal() {
-            document.getElementById('landingModalOverlay').classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') closeLandingModal();
-        });
     </script>
 </body>
-</html>
+</html>html>

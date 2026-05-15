@@ -36,6 +36,13 @@ public function isAdmin()    { return $this->role === 'admin'; }
 public function isHR() { return $this->role === 'hr' || $this->role === 'staff' || $this->role === 'employer'; }
 public function isApplicant(){ return $this->role === 'applicant'; }
 
+public function getDisplayRoleAttribute()
+{
+    if ($this->isAdmin()) return 'System Administrator';
+    if ($this->isHR()) return 'HR Admin';
+    return 'Applicant';
+}
+
     /**
      * The attributes that should be hidden for serialization.
      *

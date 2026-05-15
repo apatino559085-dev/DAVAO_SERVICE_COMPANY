@@ -8,11 +8,11 @@ class JobPostPolicy
 {
     public function update(User $user, JobPost $job): bool
     {
-        return $user->isAdmin() || $user->id === $job->user_id;
+        return $user->isAdmin() || $user->isHR() || $user->id === $job->user_id;
     }
 
     public function delete(User $user, JobPost $job): bool
     {
-        return $user->isAdmin() || $user->id === $job->user_id;
+        return $user->isAdmin() || $user->isHR() || $user->id === $job->user_id;
     }
 }

@@ -17,14 +17,14 @@ class HomeController extends Controller
         }
 
         if (auth()->user()->isHR()) {
-            $myJobs = JobPost::where('user_id', auth()->id())->latest()->get();
-            $recentApplications = Application::whereIn('job_post_id', $myJobs->pluck('id'))
-                ->with('applicant', 'jobPost')
+            $myJobs = JobPost::withCount('applications')->latest()->get();
+            $totalAppCount = Application::count();
+            $recentApplications = Application::with('applicant', 'jobPost')
                 ->latest()
                 ->take(5)
                 ->get();
             
-            return view('home', compact('myJobs', 'recentApplications'));
+            return view('home', compact('myJobs', 'recentApplications', 'totalAppCount'));
         }
 
         $jobs = JobPost::with('employer')->latest()->take(6)->get();

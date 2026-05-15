@@ -1,17 +1,17 @@
 @extends('layouts.app')
-@section('title', 'Edit Job Post')
+@section('title', 'Edit Role')
 @section('content')
-<div style="max-width: 700px; margin: 0 auto; background: white; border-radius: 24px; border: 1px solid #eef2f7; padding: 40px;">
-    <h1 style="font-size: 24px; font-weight: 900; color: #0f172a; margin-bottom: 28px;">Edit Job Post</h1>
+<div style="max-width: 800px; margin: 40px auto; background: white; border-radius: 32px; box-shadow: 0 20px 50px rgba(0,0,0,0.05); padding: 50px; border: 1px solid #f1f5f9;">
+    <h1 style="font-size: 28px; font-weight: 800; color: #0f172a; margin-bottom: 32px; letter-spacing: -0.5px;">Edit Role</h1>
     <form method="POST" action="{{ route('jobs.update', $job) }}" enctype="multipart/form-data">
         @csrf @method('PUT')
         @include('jobs._form')
         <div style="margin-top: 28px; display: flex; gap: 14px; align-items: center;">
             <button type="submit"
-                    style="background: #ca8a04; color: white; border: none; padding: 14px 32px; border-radius: 14px; font-size: 15px; font-weight: 800; cursor: pointer; font-family: inherit; box-shadow: 0 4px 14px rgba(202,138,4,0.3);">
+                    style="background: #0f172a; color: white; border: none; padding: 16px 40px; border-radius: 16px; font-size: 15px; font-weight: 800; cursor: pointer; transition: all 0.2s; box-shadow: 0 10px 20px rgba(15,23,42,0.15);">
                 Save Changes
             </button>
-            <a href="{{ route('jobs.index') }}" style="color: #94a3b8; text-decoration: none; font-size: 14px; font-weight: 600;">Cancel</a>
+            <a href="{{ route('jobs.index') }}" style="color: #64748b; text-decoration: none; font-size: 14px; font-weight: 700; margin-left: 10px;">Cancel</a>
         </div>
     </form>
 </div>
