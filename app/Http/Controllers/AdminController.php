@@ -27,6 +27,12 @@ class AdminController extends Controller
         return view('admin.dashboard', compact('users', 'jobs', 'appCount', 'activities', 'stats'));
     }
 
+    public function users()
+    {
+        $users = User::latest()->paginate(10);
+        return view('admin.users', compact('users'));
+    }
+
     public function toggleUserStatus(User $user)
     {
         if ($user->id === auth()->id()) {

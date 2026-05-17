@@ -109,12 +109,33 @@
             @endif
         @endauth
 
-        <a href="{{ route('jobs.index') }}" class="nav-link {{ request()->routeIs('jobs.index') ? 'active' : '' }}">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-            <span>Job Listings</span>
-        </a>
+        @auth
+            @if(auth()->user()->isHR())
+                <a href="{{ route('jobs.my') }}" class="nav-link {{ request()->routeIs('jobs.my') ? 'active' : '' }}">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                    <span>Job Listings</span>
+                </a>
+            @else
+                <a href="{{ route('jobs.index') }}" class="nav-link {{ request()->routeIs('jobs.index') ? 'active' : '' }}">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                    <span>Job Listings</span>
+                </a>
+            @endif
+        @else
+            <a href="{{ route('jobs.index') }}" class="nav-link {{ request()->routeIs('jobs.index') ? 'active' : '' }}">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                <span>Job Listings</span>
+            </a>
+        @endauth
 
         @auth
+            @if(auth()->user()->isAdmin() || auth()->user()->isHR() || auth()->user()->email === 'admin@job.com' || auth()->user()->email === 'employer@job.com')
+                <a href="{{ route('jobs.create') }}" class="nav-link {{ request()->routeIs('jobs.create') ? 'active' : '' }}">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                    <span>Post a Vacancy</span>
+                </a>
+            @endif
+
             @if(auth()->user()->isAdmin() || auth()->user()->isHR() || auth()->user()->role === 'staff' || auth()->user()->role === 'employer')
             @php
                 $pendingCount = \App\Models\Application::where('status', 'pending')->count();
@@ -130,10 +151,17 @@
             </a>
             @endif
 
-            @if(auth()->user()->isAdmin())
+            @if(auth()->user()->isAdmin() || auth()->user()->isHR())
             <a href="{{ route('applications.archived') }}" class="nav-link {{ request()->routeIs('applications.archived') || request()->routeIs('admin.archived-jobs') ? 'active' : '' }}">
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/></svg>
                 <span>Archive</span>
+            </a>
+            @endif
+
+            @if(auth()->user()->isAdmin())
+            <a href="{{ route('admin.users') }}" class="nav-link {{ request()->routeIs('admin.users') ? 'active' : '' }}">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                <span>User Management</span>
             </a>
             @endif
 
@@ -169,6 +197,16 @@
         </div>
 
         <div class="content">
+            @if($errors->any())
+                <div style="background: #fee2e2; border: 1px solid #ef4444; color: #b91c1c; padding: 16px 24px; border-radius: 16px; margin-bottom: 32px; font-size: 14px; font-weight: 600;">
+                    <ul style="margin: 0; padding-left: 20px;">
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             @if(session('success'))
                 <div class="alert alert-success">{{ session('success') }}</div>
             @endif

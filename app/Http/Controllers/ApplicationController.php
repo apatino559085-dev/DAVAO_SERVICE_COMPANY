@@ -194,8 +194,8 @@ class ApplicationController extends Controller
     {
         $user = auth()->user();
         
-        if (!$user->isAdmin()) {
-            abort(403, 'Unauthorized. Only administrators can access the Archive.');
+        if (!$user->isAdmin() && !$user->isHR()) {
+            abort(403, 'Unauthorized access to Archive.');
         }
 
         $query = Application::with(['jobPost', 'applicant'])

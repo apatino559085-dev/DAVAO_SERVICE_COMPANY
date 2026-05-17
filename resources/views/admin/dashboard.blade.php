@@ -79,10 +79,12 @@
         <div class="header-subtitle">Real-time metrics for Davao Central Services</div>
     </div>
     <div style="display: flex; gap: 16px; align-items: center;">
+        @if(auth()->user()->isAdmin())
         <a href="{{ route('admin.report') }}" target="_blank" style="display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, #022c22, #064e3b); color: #fbbf24; padding: 10px 24px; border-radius: 100px; font-size: 14px; font-weight: 800; text-decoration: none; box-shadow: 0 4px 12px rgba(2,44,34,0.3); transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
             <svg style="width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
             Generate PDF Report
         </a>
+        @endif
         <div style="display: flex; gap: 12px; align-items: center; background: white; padding: 10px 20px; border-radius: 100px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid rgba(0,0,0,0.02);">
             <div style="width: 10px; height: 10px; background: #10b981; border-radius: 50%; box-shadow: 0 0 12px #10b981; animation: pulse 2s infinite;"></div>
             <span style="font-size: 14px; font-weight: 800; color: #334155;">System Online</span>

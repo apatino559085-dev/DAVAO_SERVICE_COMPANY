@@ -13,6 +13,6 @@ class JobPostPolicy
 
     public function delete(User $user, JobPost $job): bool
     {
-        return $user->isAdmin() || $user->isHR() || $user->id === $job->user_id;
+        return $user->isAdmin();
     }
 }

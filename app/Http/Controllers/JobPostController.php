@@ -20,6 +20,10 @@ class JobPostController extends Controller
             $query->where('location', 'like', '%' . $request->location . '%');
         }
 
+        if ($request->has('type') && $request->type) {
+            $query->where('type', $request->type);
+        }
+
         // Hide jobs where the logged-in applicant has an active (non-rejected) application
         $user = auth()->user();
         if ($user && $user->role === 'applicant') {
@@ -149,7 +153,7 @@ class JobPostController extends Controller
         return redirect()->route('jobs.index')->with('success', 'Job post terminated and moved to archive!');
     }
 
-    public function myJobs()
+    public function myJobs(Request $request)
     {
         $user = auth()->user();
         $query = JobPost::withCount('applications')->active()->latest();
@@ -159,7 +163,19 @@ class JobPostController extends Controller
             $query->where('user_id', $user->id);
         }
 
-        $jobs = $query->get();
+        if ($request->has('industry') && $request->industry) {
+            $query->where('industry', $request->industry);
+        }
+
+        if ($request->has('location') && $request->location) {
+            $query->where('location', 'like', '%' . $request->location . '%');
+        }
+
+        if ($request->has('type') && $request->type) {
+            $query->where('type', $request->type);
+        }
+
+        $jobs = $query->paginate(6)->withQueryString();
         return view('jobs.my', compact('jobs'));
     }
 }

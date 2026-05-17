@@ -50,6 +50,10 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
+        if ($user->isHR()) {
+            return redirect(route('jobs.my', absolute: false));
+        }
+
         return redirect(route('jobs.index', absolute: false));
     }
 }

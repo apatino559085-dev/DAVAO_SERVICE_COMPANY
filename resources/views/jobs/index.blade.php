@@ -52,6 +52,47 @@
     @endauth
 </div>
 
+<!-- FILTER BAR -->
+<div style="background: white; border-radius: 28px; padding: 24px 32px; border: 1px solid #f1f5f9; box-shadow: 0 20px 40px rgba(0,0,0,0.03); margin-bottom: 48px;">
+    <form action="{{ route('jobs.index') }}" method="GET" style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-end;">
+        <div style="flex: 2; min-width: 250px;">
+            <label style="display: block; font-size: 11px; font-weight: 900; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; padding-left: 4px;">Search Location</label>
+            <div style="position: relative;">
+                <input type="text" name="location" value="{{ request('location') }}" placeholder="City, Region, or Remote..." style="width: 100%; padding: 16px 20px; border: 2px solid #f8fafc; border-radius: 16px; font-size: 14px; font-weight: 600; outline: none; background: #fcfdfe; transition: all 0.3s;" onfocus="this.style.borderColor='var(--primary)'; this.style.background='white';">
+            </div>
+        </div>
+        
+        <div style="flex: 1; min-width: 180px;">
+            <label style="display: block; font-size: 11px; font-weight: 900; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; padding-left: 4px;">Industry</label>
+            <select name="industry" style="width: 100%; padding: 16px 20px; border: 2px solid #f8fafc; border-radius: 16px; font-size: 14px; font-weight: 600; outline: none; background: #fcfdfe; cursor: pointer; transition: all 0.3s;" onfocus="this.style.borderColor='var(--primary)';" onchange="this.form.submit()">
+                <option value="">All Categories</option>
+                <option value="Technology" {{ request('industry') == 'Technology' ? 'selected' : '' }}>Technology</option>
+                <option value="Administration" {{ request('industry') == 'Administration' ? 'selected' : '' }}>Administration</option>
+                <option value="Security" {{ request('industry') == 'Security' ? 'selected' : '' }}>Security</option>
+                <option value="Maintenance" {{ request('industry') == 'Maintenance' ? 'selected' : '' }}>Maintenance</option>
+            </select>
+        </div>
+
+        <div style="flex: 1; min-width: 180px;">
+            <label style="display: block; font-size: 11px; font-weight: 900; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; padding-left: 4px;">Job Type</label>
+            <select name="type" style="width: 100%; padding: 16px 20px; border: 2px solid #f8fafc; border-radius: 16px; font-size: 14px; font-weight: 600; outline: none; background: #fcfdfe; cursor: pointer; transition: all 0.3s;" onfocus="this.style.borderColor='var(--primary)';" onchange="this.form.submit()">
+                <option value="">All Types</option>
+                <option value="full-time" {{ request('type') == 'full-time' ? 'selected' : '' }}>Full-time</option>
+                <option value="part-time" {{ request('type') == 'part-time' ? 'selected' : '' }}>Part-time</option>
+                <option value="remote" {{ request('type') == 'remote' ? 'selected' : '' }}>Remote</option>
+                <option value="contract" {{ request('type') == 'contract' ? 'selected' : '' }}>Contractual</option>
+            </select>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 16px;">
+            <button type="submit" style="background: var(--primary); color: white; border: none; padding: 16px 32px; border-radius: 16px; font-weight: 800; font-size: 14px; cursor: pointer; transition: all 0.2s; box-shadow: 0 10px 20px rgba(2, 44, 34, 0.1);">Apply Filters</button>
+            @if(request()->anyFilled(['location', 'industry', 'type']))
+                <a href="{{ route('jobs.index') }}" style="color: #ef4444; text-decoration: none; font-size: 13px; font-weight: 800; white-space: nowrap;">Reset Clear</a>
+            @endif
+        </div>
+    </form>
+</div>
+
 <div class="job-grid">
     @foreach($jobs as $job)
     <div class="job-card">

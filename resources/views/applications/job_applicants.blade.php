@@ -8,24 +8,24 @@
 <style>
     /* Premium Kanban Design System */
     .kanban-board {
-        display: flex;
-        gap: 24px;
-        overflow-x: auto;
-        padding-bottom: 24px;
-        min-height: 70vh;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 32px;
+        min-height: 75vh;
         align-items: flex-start;
     }
 
     .kanban-column {
-        min-width: 340px;
-        width: 340px;
-        background: rgba(248,250,252,0.6);
-        border: 1px solid rgba(0,0,0,0.04);
-        border-radius: 20px;
-        padding: 20px;
+        width: 100%;
+        min-width: 0;
+        background: rgba(248,250,252,0.8);
+        border: 1px solid rgba(0,0,0,0.05);
+        border-radius: 24px;
+        padding: 24px;
         display: flex;
         flex-direction: column;
         gap: 16px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.02);
     }
 
     .kanban-header {

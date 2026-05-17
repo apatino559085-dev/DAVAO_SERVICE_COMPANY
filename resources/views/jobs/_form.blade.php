@@ -17,36 +17,48 @@
     </div>
 
     <div class="form-group">
-        <label class="form-label">Department</label>
-        <select name="department" class="form-input">
-            <option value="IT" {{ (old('department', $job->department ?? '') == 'IT') ? 'selected' : '' }}>Technology</option>
-            <option value="Admin" {{ (old('department', $job->department ?? '') == 'Admin') ? 'selected' : '' }}>Administration</option>
-            <option value="Security" {{ (old('department', $job->department ?? '') == 'Security') ? 'selected' : '' }}>Security & Safety</option>
-            <option value="Maintenance" {{ (old('department', $job->department ?? '') == 'Maintenance') ? 'selected' : '' }}>Facility Maintenance</option>
+        <label class="form-label">Location</label>
+        <input type="text" name="location" class="form-input" placeholder="e.g. Davao City, PH" value="{{ old('location', $job->location ?? '') }}" required>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">Department / Industry</label>
+        <select name="industry" class="form-input" required>
+            <option value="Technology" {{ (old('industry', $job->industry ?? '') == 'Technology') ? 'selected' : '' }}>Technology</option>
+            <option value="Administration" {{ (old('industry', $job->industry ?? '') == 'Administration') ? 'selected' : '' }}>Administration</option>
+            <option value="Security" {{ (old('industry', $job->industry ?? '') == 'Security') ? 'selected' : '' }}>Security & Safety</option>
+            <option value="Maintenance" {{ (old('industry', $job->industry ?? '') == 'Maintenance') ? 'selected' : '' }}>Facility Maintenance</option>
+            <option value="Other" {{ (old('industry', $job->industry ?? '') == 'Other') ? 'selected' : '' }}>Other</option>
         </select>
     </div>
 
     <div class="form-group">
         <label class="form-label">Employment Type</label>
-        <select name="type" class="form-input">
-            <option value="Full-time">Full-time</option>
-            <option value="Part-time">Part-time</option>
-            <option value="Contract">Contractual</option>
+        <select name="type" class="form-input" required>
+            <option value="full-time" {{ (old('type', $job->type ?? '') == 'full-time') ? 'selected' : '' }}>Full-time</option>
+            <option value="part-time" {{ (old('type', $job->type ?? '') == 'part-time') ? 'selected' : '' }}>Part-time</option>
+            <option value="remote" {{ (old('type', $job->type ?? '') == 'remote') ? 'selected' : '' }}>Remote</option>
+            <option value="contract" {{ (old('type', $job->type ?? '') == 'contract') ? 'selected' : '' }}>Contractual</option>
         </select>
     </div>
 
     <div class="form-group">
         <label class="form-label">Monthly Salary (₱)</label>
-        <input type="number" name="salary" class="form-input" placeholder="0.00" value="{{ old('salary', $job->salary ?? '') }}">
+        <input type="text" name="salary" class="form-input" placeholder="e.g. 25,000 - 30,000" value="{{ old('salary', $job->salary ?? '') }}">
     </div>
 
     <div class="form-group">
         <label class="form-label">Application Deadline</label>
-        <input type="date" name="deadline" class="form-input" value="{{ old('deadline', $job->deadline ?? '') }}">
+        <input type="date" name="expires_at" class="form-input" value="{{ old('expires_at', (isset($job->expires_at) ? $job->expires_at->format('Y-m-d') : '')) }}">
     </div>
 
     <div class="form-group" style="grid-column: 1 / -1;">
-        <label class="form-label">Key Requirements & Description</label>
-        <textarea name="requirements" class="form-input" placeholder="Outline the responsibilities and qualifications...">{{ old('requirements', $job->requirements ?? '') }}</textarea>
+        <label class="form-label">Job Description</label>
+        <textarea name="description" class="form-input" placeholder="Describe the core responsibilities..." required>{{ old('description', $job->description ?? '') }}</textarea>
+    </div>
+
+    <div class="form-group" style="grid-column: 1 / -1;">
+        <label class="form-label">Key Requirements (Optional)</label>
+        <textarea name="requirements" class="form-input" placeholder="Outline the qualifications and skills...">{{ old('requirements', $job->requirements ?? '') }}</textarea>
     </div>
 </div>

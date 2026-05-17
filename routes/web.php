@@ -51,13 +51,14 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/my-applications', [ApplicationController::class, 'myApplications'])->name('applications.my');
     });
 
-    // Admin only
+    // Admin Only
     Route::middleware(['role:admin'])->prefix('admin')->name('admin.')->group(function () {
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+        Route::get('/users', [AdminController::class, 'users'])->name('users');
         Route::get('/archived-jobs', [AdminController::class, 'archivedJobs'])->name('archived-jobs');
         Route::get('/report', [AdminController::class, 'generateReport'])->name('report');
         Route::patch('/users/{user}/toggle', [AdminController::class, 'toggleUserStatus'])->name('users.toggle');
-        Route::delete('/jobs/{job}', [AdminController::class, 'destroyJob'])->name('jobs.destroy');
+        Route::delete('/jobs/{job}/force', [AdminController::class, 'destroyJob'])->name('jobs.destroy');
     });
 });
 
