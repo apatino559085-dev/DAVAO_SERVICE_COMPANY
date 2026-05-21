@@ -90,6 +90,34 @@
             .sidebar-logo span, .nav-link span, .logout-btn span { display: none; }
             .main { margin-left: 90px; }
         }
+
+        /* PREMIUM TOAST NOTIFICATIONS */
+        .alert-toast {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 16px 20px; border-radius: 16px; margin-bottom: 24px;
+            animation: slideDown 0.4s ease-out;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border: 1px solid;
+        }
+        .alert-toast-success {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border-color: #bbf7d0;
+        }
+        .alert-toast-error {
+            background: linear-gradient(135deg, #fef2f2, #fee2e2);
+            border-color: #fecaca;
+        }
+        .alert-toast.fade-out {
+            animation: slideUp 0.4s ease-in forwards;
+        }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideUp {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(-16px); }
+        }
     </style>
 </head>
 <body>
@@ -208,15 +236,49 @@
             @endif
 
             @if(session('success'))
-                <div class="alert alert-success">{{ session('success') }}</div>
+                <div class="alert-toast alert-toast-success" id="successToast">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div style="width: 36px; height: 36px; border-radius: 50%; background: #dcfce7; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                            <svg width="20" height="20" fill="none" stroke="#16a34a" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                        </div>
+                        <div>
+                            <div style="font-weight: 800; font-size: 14px; color: #14532d;">Success</div>
+                            <div style="font-size: 13px; color: #166534; margin-top: 2px;">{{ session('success') }}</div>
+                        </div>
+                    </div>
+                    <button onclick="this.parentElement.remove()" style="background: none; border: none; cursor: pointer; color: #16a34a; padding: 4px;">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                    </button>
+                </div>
             @endif
             @if(session('error'))
-                <div class="alert alert-error">{{ session('error') }}</div>
+                <div class="alert-toast alert-toast-error" id="errorToast">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div style="width: 36px; height: 36px; border-radius: 50%; background: #fee2e2; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                            <svg width="20" height="20" fill="none" stroke="#dc2626" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                        </div>
+                        <div>
+                            <div style="font-weight: 800; font-size: 14px; color: #7f1d1d;">Error</div>
+                            <div style="font-size: 13px; color: #991b1b; margin-top: 2px;">{{ session('error') }}</div>
+                        </div>
+                    </div>
+                    <button onclick="this.parentElement.remove()" style="background: none; border: none; cursor: pointer; color: #dc2626; padding: 4px;">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                    </button>
+                </div>
             @endif
 
             @yield('content')
         </div>
     </div>
 
+    <script>
+        document.querySelectorAll('.alert-toast').forEach(toast => {
+            setTimeout(() => {
+                toast.classList.add('fade-out');
+                setTimeout(() => toast.remove(), 400);
+            }, 5000);
+        });
+    </script>
 </body>
 </html>
