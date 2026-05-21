@@ -11,12 +11,12 @@
  */
 
 // ===================== CONFIGURATION =====================
-$mysqlHost     = '127.0.0.1';
-$mysqlPort     = 3306;
-$mysqlUser     = 'root';
-$mysqlPass     = '';
-$mysqlDbName   = 'davao_jobs';
-$sqliteFile    = __DIR__ . '/database/database.sqlite';
+$mysqlHost = 'bq5jiqemsif59sfmccah-mysql.services.clever-cloud.com';
+$mysqlPort = 3306;
+$mysqlUser = 'uijkwku3pucpqv64';
+$mysqlPass = 'SMlSRuKvzebcOihHQXMr';
+$mysqlDbName = 'bq5jiqemsif59sfmccah';
+$sqliteFile = __DIR__ . '/database/database.sqlite';
 // =========================================================
 
 echo "=== SQLite to MySQL Migration Tool ===\n\n";
@@ -313,19 +313,20 @@ echo "\n[5/5] Inserting data into MySQL...\n";
 $mysql->exec("SET FOREIGN_KEY_CHECKS = 0");
 
 // Helper function to insert data
-function insertData(PDO $mysql, string $table, array $rows) {
+function insertData(PDO $mysql, string $table, array $rows)
+{
     if (empty($rows)) {
         echo "  ⚠ $table: No data to insert\n";
         return;
     }
-    
+
     $columns = array_keys($rows[0]);
     $placeholders = '(' . implode(', ', array_fill(0, count($columns), '?')) . ')';
     $columnList = '`' . implode('`, `', $columns) . '`';
-    
+
     $sql = "INSERT INTO `$table` ($columnList) VALUES $placeholders";
     $stmt = $mysql->prepare($sql);
-    
+
     $inserted = 0;
     foreach ($rows as $row) {
         try {
