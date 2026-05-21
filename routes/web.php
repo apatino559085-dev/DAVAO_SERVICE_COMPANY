@@ -14,6 +14,11 @@ Route::get('/test-auth', function () {
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
+Route::get('/seed-database', function() {
+    \Illuminate\Support\Facades\Artisan::call('db:seed', ['--force' => true]);
+    return 'Database seeded successfully! You can now log in.';
+});
+
 // Public job listing
 Route::get('/jobs', [JobPostController::class, 'index'])->name('jobs.index');
 
