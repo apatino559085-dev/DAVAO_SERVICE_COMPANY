@@ -6,6 +6,7 @@ use App\Models\JobPost;
 use App\Policies\JobPostPolicy;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -33,5 +34,9 @@ class AppServiceProvider extends ServiceProvider
                 $view->with('pending_applications_count', $count);
             }
         });
+
+        if (env('APP_ENV') === 'production') {
+            URL::forceScheme('https');
+        }
     }
 }
